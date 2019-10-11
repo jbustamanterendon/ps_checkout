@@ -56,6 +56,7 @@ class ps_checkout extends PaymentModule
         'displayAdminAfterHeader',
         'ActionAdminControllerSetMedia',
         'actionOrderStatusUpdate',
+        'displayHeader'
     ];
 
     public $configurationList = array(
@@ -213,6 +214,35 @@ class ps_checkout extends PaymentModule
 
         return $this->display(__FILE__, '/views/templates/admin/configuration.tpl');
     }
+
+    public function hookDisplayHeader()
+    {
+        if ($this->context->controller->php_self == 'order') {
+            $payload = (new GenerateJsonPaypalOrder())->create($this->context);
+            $paypalOrder = (new Order($this->context->link))->create($payload);
+
+            if (false === $paypalOrder) {
+                return false;
+            }
+
+            $this->context->controller->registerJavascript(
+                'psc-js-paypal-sdk',
+                'https://www.paypal.com/sdk/js?components=hosted-fields,buttons&amp;client-id='.(new PaypalEnv())->getPaypalClientId().'&amp;merchant-id='.$paypalAccountRepository->getMerchantId().'&amp;intent='.strtolower(Configuration::get('PS_CHECKOUT_INTENT')).'&amp;currency='.$this->context->currency->iso_code,
+                array('position' => 'bottom', 'priority' => 150)
+            );
+
+            $paypalAccountRepository = new PaypalAccountRepository();
+
+            Media::addJsDef(array(
+                'paypalOrderId' => $paypalOrder['id'],
+                'validateOrderLinkByCard' => $this->getValidateOrderLink($paypalOrder['id'], 'card'),
+                'validateOrderLinkByPaypal' => $this->getValidateOrderLink($paypalOrder['id'], 'paypal'),
+                'cardIsActive' => $paypalAccountRepository->cardPaymentMethodIsValid(),
+                'paypalIsActive' => $paypalAccountRepository->paypalPaymentMethodIsValid(),
+            ));
+        }
+    }
+
 
     /**
      * Add payment option at the checkout in the front office
