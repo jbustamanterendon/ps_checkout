@@ -303,3 +303,5 @@ $RECYCLE.BIN/
 
 # CS Fixer
 .php_cs.cache
+
+config_es.xml

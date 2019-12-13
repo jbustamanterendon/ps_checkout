@@ -17,28 +17,30 @@
  * International Registered Trademark & Property of PrestaShop SA
  *}
 
-<link rel="preload" href="https://www.paypal.com/sdk/js?components=hosted-fields,buttons&amp;client-id={$paypalClientId|escape:'htmlall':'UTF-8'}&amp;merchant-id={$merchantId|escape:'htmlall':'UTF-8'}&amp;intent={$intent|escape:'htmlall':'UTF-8'}&amp;currency={$currencyIsoCode|escape:'htmlall':'UTF-8'}" as="script">
+<div id="ps_checkout_paypal_container">
+    <link rel="preload" href="https://www.paypal.com/sdk/js?components=hosted-fields,buttons&amp;client-id={$paypalClientId|escape:'htmlall':'UTF-8'}&amp;merchant-id={$merchantId|escape:'htmlall':'UTF-8'}&amp;intent={$intent|escape:'htmlall':'UTF-8'}&amp;currency={$currencyIsoCode|escape:'htmlall':'UTF-8'}" as="script">
 
-<div class="paypal-tips">{l s='You will be redirected to the related gateway to complete payment' mod='ps_checkout'}</div>
+    <div class="paypal-tips">{l s='You will be redirected to the related gateway to complete payment' mod='ps_checkout'}</div>
 
-<div>
-  <div id="paypal-button-container"></div>
+    <div>
+      <div id="paypal-button-container"></div>
 
-  <form id="conditions-to-approve-paypal" method="GET">
-    <label for="conditions_to_approve">
-      <input id="conditions_to_approve" type="checkbox" name="conditions_to_approve" class="buttons-approve">
-      {assign var="link_url" value=$link->getCMSLink('3')}
-      {l s='I agree to the [1]terms of service[/1] and will adhere to them unconditionally.' mod='ps_checkout' tags=["<a href=\"$link_url\" id=\"cta-terms-and-conditions-checkout\">"]}
-    </label>
-  </form>
-</div>
+      <form id="conditions-to-approve-paypal" method="GET">
+        <label for="conditions_to_approve">
+          <input id="conditions_to_approve" type="checkbox" name="conditions_to_approve" class="buttons-approve">
+          {assign var="link_url" value=$link->getCMSLink('3')}
+          {l s='I agree to the [1]terms of service[/1] and will adhere to them unconditionally.' mod='ps_checkout' tags=["<a href=\"$link_url\" id=\"cta-terms-and-conditions-checkout\">"]}
+        </label>
+      </form>
+    </div>
 
-<div id="paypal-approve-error" class="hide-paypal-error">
-  <article class="alert alert-danger" role="alert" data-alert="danger">
-    <ul>
-      <li>{l s='Please indicate that you have read Terms & Conditions and accept all terms.' mod='ps_checkout'}</li>
-    </ul>
-  </article>
+    <div id="paypal-approve-error" class="hide-paypal-error">
+      <article class="alert alert-danger" role="alert" data-alert="danger">
+        <ul>
+          <li>{l s='Please indicate that you have read Terms & Conditions and accept all terms.' mod='ps_checkout'}</li>
+        </ul>
+      </article>
+    </div>
 </div>
 
 <script>
@@ -69,13 +71,13 @@ initPaypalScript();
 
 {literal}
 <script type="text/javascript">
-  const cardNumberPlaceholder = "{/literal}{l s='Card number' mod='ps_checkout'}{literal}";
-  const expDatePlaceholder = "{/literal}{l s='MM/YY' mod='ps_checkout'}{literal}";
-  const cvvPlaceholder = "{/literal}{l s='XXX' mod='ps_checkout'}{literal}";
-  const paypalOrderId = "{/literal}{$paypalOrderId|escape:'javascript':'UTF-8'}{literal}";
-  const validateOrderLinkByCard = "{/literal}{$validateOrderLinkByCard|escape:'javascript':'UTF-8'}{literal}";
-  const validateOrderLinkByPaypal = "{/literal}{$validateOrderLinkByPaypal|escape:'javascript':'UTF-8'}{literal}";
-  const cardIsActive = "{/literal}{$cardIsActive|escape:'javascript':'UTF-8'}{literal}";
-  const paypalIsActive = "{/literal}{$paypalIsActive|escape:'javascript':'UTF-8'}{literal}";
+  var cardNumberPlaceholder = "{/literal}{l s='Card number' mod='ps_checkout'}{literal}";
+  var expDatePlaceholder = "{/literal}{l s='MM/YY' mod='ps_checkout'}{literal}";
+  var cvvPlaceholder = "{/literal}{l s='XXX' mod='ps_checkout'}{literal}";
+  var paypalOrderId = "{/literal}{$paypalOrderId|escape:'javascript':'UTF-8'}{literal}";
+  var validateOrderLinkByCard = "{/literal}{$validateOrderLinkByCard|escape:'javascript':'UTF-8'}{literal}";
+  var validateOrderLinkByPaypal = "{/literal}{$validateOrderLinkByPaypal|escape:'javascript':'UTF-8'}{literal}";
+  var cardIsActive = "{/literal}{$cardIsActive|escape:'javascript':'UTF-8'}{literal}";
+  var paypalIsActive = "{/literal}{$paypalIsActive|escape:'javascript':'UTF-8'}{literal}";
 </script>
 {/literal}

@@ -33,7 +33,7 @@ function initPsCheckout() {
 
   hostedFieldsErrors = JSON.parse(hostedFieldsErrors);
 
-  hideDefaultPaymentButtonIfPaypalIsChecked();
+//  hideDefaultPaymentButtonIfPaypalIsChecked();
 
   if (Boolean(cardIsActive)) {
     initHostedFields();
